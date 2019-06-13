@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -21,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements recipeListMainActivityFragment.OnRecipeItemClick {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,5 +39,10 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.recipe_list_main_activity_fragment, testFragment)
                 .commit();
 
+    }
+
+    @Override
+    public void onClick(View view, int position) {
+        Toast.makeText(this, position, Toast.LENGTH_SHORT).show();
     }
 }

@@ -49,8 +49,14 @@ public class recipeListMainActivityFragment extends Fragment{
     private List<StepList> mStepList;
     RecipeListMainActivityAdapter mAdapter;
     private RequestQueue mRequestQueue;
+    OnRecipeItemClick mCallback;
 
     @BindView(R.id.main_activity_recycler_view) RecyclerView recyclerView;
+
+
+    public interface OnRecipeItemClick{
+        void onClick(View view, int position);
+    }
 
 public recipeListMainActivityFragment(){
 
@@ -74,6 +80,14 @@ public recipeListMainActivityFragment(){
 
         recyclerView.setAdapter(mAdapter);
 
+        mCallback = new OnRecipeItemClick() {
+            @Override
+            public void onClick(View view, int position) {
+                Toast.makeText(getContext(), position, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        mAdapter.setClickListener(mCallback);
         getRecipeData();
 
         return rootView;
@@ -82,6 +96,12 @@ public recipeListMainActivityFragment(){
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        try{
+            mCallback = (OnRecipeItemClick) context;
+        }catch (ClassCastException e){
+            throw new ClassCastException(context.toString());
+        }
     }
 
     private void getRecipeData(){

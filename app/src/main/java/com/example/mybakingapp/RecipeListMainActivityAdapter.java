@@ -23,7 +23,12 @@ public class RecipeListMainActivityAdapter extends RecyclerView.Adapter<RecipeLi
 
     private List<MainRecipeCard> mRecipeCardName;
     private Context mContext;
+    private recipeListMainActivityFragment.OnRecipeItemClick recipeClick;
 
+
+    public void setClickListener(recipeListMainActivityFragment.OnRecipeItemClick listener){
+        recipeClick = listener;
+    }
     public RecipeListMainActivityAdapter(Context context, List<MainRecipeCard> recipeCardName){
         mContext = context;
         mRecipeCardName = recipeCardName;
@@ -58,14 +63,20 @@ public class RecipeListMainActivityAdapter extends RecyclerView.Adapter<RecipeLi
         return mRecipeCardName.size();
     }
 
-    public class MainRecipeListViewHolder extends RecyclerView.ViewHolder{
+    public class MainRecipeListViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.text_view) TextView textView;
         public MainRecipeListViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-        }
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recipeClick.onClick(itemView, getAdapterPosition());
+                }
+            });
+        }
     }
 }
