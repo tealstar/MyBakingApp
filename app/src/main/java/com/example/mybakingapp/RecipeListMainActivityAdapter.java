@@ -3,10 +3,16 @@ package com.example.mybakingapp;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.example.mybakingapp.model.IngredientsList;
+import com.example.mybakingapp.model.MainRecipeCard;
+import com.example.mybakingapp.model.StepList;
 
 import java.util.List;
 
@@ -15,11 +21,12 @@ import butterknife.ButterKnife;
 
 public class RecipeListMainActivityAdapter extends RecyclerView.Adapter<RecipeListMainActivityAdapter.MainRecipeListViewHolder>{
 
-    private int test = 77777777;
+    private List<MainRecipeCard> mRecipeCardName;
     private Context mContext;
 
-    public RecipeListMainActivityAdapter(Context context){
+    public RecipeListMainActivityAdapter(Context context, List<MainRecipeCard> recipeCardName){
         mContext = context;
+        mRecipeCardName = recipeCardName;
     }
 
     @NonNull
@@ -39,27 +46,26 @@ public class RecipeListMainActivityAdapter extends RecyclerView.Adapter<RecipeLi
     @Override
     public void onBindViewHolder(@NonNull RecipeListMainActivityAdapter.MainRecipeListViewHolder mainRecipeListViewHolder, int i) {
 
-        mainRecipeListViewHolder.textView.setText(Integer.toString(test));
+        MainRecipeCard currentRecipe = mRecipeCardName.get(i);
+
+        String recipeName = currentRecipe.getmRecipeName();
+
+        mainRecipeListViewHolder.textView.setText(recipeName);
     }
 
     @Override
     public int getItemCount() {
-        return test;
+        return mRecipeCardName.size();
     }
 
-    public class MainRecipeListViewHolder extends RecyclerView.ViewHolder {
+    public class MainRecipeListViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.text_view) TextView textView;
         public MainRecipeListViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
-            if(itemView == null) {
-                textView = new TextView(mContext);
-
-            }else {
-                textView = (TextView) itemView;
-            }
         }
+
     }
 }
